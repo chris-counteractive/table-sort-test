@@ -43,7 +43,8 @@
                     {title: 'os', data: 'os'},
                     {title: 'release', data: 'release'},
                     {title: 'ip', data: 'ip'},
-                ]
+                ],
+                deferRender: true
             })
             t4 = new Date()
             console.log(`finished building table at ${t4}, ${Math.abs(t4 - t3)}ms later`)
