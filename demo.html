@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Table Sort Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Table Sort Test
+      </h1>
+      <div id="table-container">
+          <div id="indicator">Loading</div>
+          <table id="datatables-test"></table>
+      </div>
+    </div>
+  </section>
+  <script>
+    let t1, t2, t3, t4
+    t1 = new Date()
+    console.log(`requested data at ${t1}`)
+    fetch('https://raw.githubusercontent.com/chris-counteractive/table-sort-test/master/fake-clients-100000.json')
+        .then(res => {
+            t2 = new Date()
+            console.log(`got response and started json extraction at ${t2}, ${Math.abs(t2 - t1)}ms later`)
+            return res.json()
+        })
+        .then(data => {
+            t3 = new Date()
+            console.log(`started building table at ${t3}, ${Math.abs(t3 - t2)}ms later`)
+            $('#indicator').hide()
+            const dt = $('#datatables-test').DataTable({
+                data,
+                columns: [
+                    {title: 'id', data: 'id'},
+                    {title: 'hostname', data: 'hostname'},
+                    {title: 'os', data: 'os'},
+                    {title: 'release', data: 'release'},
+                    {title: 'ip', data: 'ip'},
+                ]
+            })
+            t4 = new Date()
+            console.log(`finished building table at ${t4}, ${Math.abs(t4 - t3)}ms later`)
+        });
+  </script>
+  </body>
+</html>
